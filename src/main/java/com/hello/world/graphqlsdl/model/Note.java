@@ -24,8 +24,8 @@ public class Note {
     @NotNull
     private ZonedDateTime createdOn;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
     private Author author;
 
     public UUID getId() {

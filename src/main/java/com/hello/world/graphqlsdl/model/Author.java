@@ -2,6 +2,7 @@ package com.hello.world.graphqlsdl.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,8 +24,23 @@ public class Author {
     @NotNull
     private String email;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(
+            mappedBy = "author",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
     private List<Note> notes;
+
+    public void addNote(Note note) {
+        notes.add(note);
+        note.setAuthor(this);
+    }
+
+    public void removeNote(Note note) {
+        notes.remove(note);
+        note.setAuthor(null);
+    }
 
     public UUID getId() {
         return id;
