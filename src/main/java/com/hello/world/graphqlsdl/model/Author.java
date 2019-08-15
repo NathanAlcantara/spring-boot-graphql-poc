@@ -24,12 +24,7 @@ public class Author {
     @NotNull
     private String email;
 
-    @OneToMany(
-            mappedBy = "author",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
+    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Note> notes;
 
     public void addNote(Note note) {

@@ -8,6 +8,7 @@ import com.hello.world.graphqlsdl.service.AuthorService;
 import com.hello.world.graphqlsdl.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -15,14 +16,16 @@ import java.util.UUID;
 public class Mutation implements GraphQLMutationResolver {
 
     @Autowired
-    NoteService notesService;
+    private NoteService notesService;
     @Autowired
-    AuthorService authorService;
+    private AuthorService authorService;
 
+    @Transactional
     public Note addNote(final String note, final UUID authorId) {
         return notesService.createNote(note, authorId);
     }
 
+    @Transactional
     public Author addAuthor(final InputPerson author) {
         return authorService.createAuthor(author.getName(), author.getEmail());
     }
