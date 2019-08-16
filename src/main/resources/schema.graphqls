@@ -6,6 +6,7 @@ schema {
 type Mutation {
     addAuthor(author: InputAuthor!): Author
     addNote(note: String!, authorId: ID!): Note
+    deleteAuthor(author: DeleteAuthorInput!): DeleteAuthorOutput
 }
 
 type Query {
@@ -18,6 +19,14 @@ type Query {
 input InputAuthor {
     name: String!
     email: String!
+}
+
+input DeleteAuthorInput {
+    id: ID!
+}
+
+type DeleteAuthorOutput {
+    sucesso: Boolean!
 }
 
 type Note {
