@@ -1,8 +1,6 @@
 package com.hello.world.graphqlsdl.service;
 
-import com.hello.world.graphqlsdl.model.Author;
-import com.hello.world.graphqlsdl.model.DeleteAuthorInput;
-import com.hello.world.graphqlsdl.model.DeleteAuthorPayload;
+import com.hello.world.graphqlsdl.model.*;
 import com.hello.world.graphqlsdl.repository.AuthorRepository;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ public class AuthorService {
         if (authorRepository.existsById(input.getId())) {
             authorRepository.deleteById(input.getId());
         }
-        output.setSucesso(true);
+        output.setSucess(true);
         return output;
     }
 
@@ -46,5 +44,18 @@ public class AuthorService {
         author.setEmail(email);
 
         return authorRepository.save(author);
+    }
+
+    public ChangeAuthorPayload updateAuthor(ChangeAuthorInput input) {
+        ChangeAuthorPayload payload = new ChangeAuthorPayload();
+
+        Optional<Author> author = findById(input.getId());
+        if (author.isPresent()) {
+            payload.setAuthor(author.get());
+            payload.setSuccess(true);
+        } else {
+            payload.setSuccess(false);
+        }
+        return payload;
     }
 }

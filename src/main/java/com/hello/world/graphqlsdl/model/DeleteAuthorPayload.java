@@ -1,13 +1,13 @@
 package com.hello.world.graphqlsdl.model;
 
 public class DeleteAuthorPayload {
-    private Boolean sucesso;
+    private Boolean sucess;
 
-    public Boolean getSucesso() {
-        return sucesso;
+    public Boolean getSucess() {
+        return sucess;
     }
 
-    public void setSucesso(Boolean sucesso) {
-        this.sucesso = sucesso;
+    public void setSucess(Boolean sucess) {
+        this.sucess = sucess;
     }
 }

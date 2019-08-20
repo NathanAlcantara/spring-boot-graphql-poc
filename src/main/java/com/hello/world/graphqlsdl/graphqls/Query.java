@@ -2,7 +2,6 @@ package com.hello.world.graphqlsdl.graphqls;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.hello.world.graphqlsdl.model.Author;
-import com.hello.world.graphqlsdl.model.DeleteAuthorOutput;
 import com.hello.world.graphqlsdl.model.Note;
 import com.hello.world.graphqlsdl.service.AuthorService;
 import com.hello.world.graphqlsdl.service.NoteService;

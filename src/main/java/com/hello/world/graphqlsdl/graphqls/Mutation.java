@@ -28,8 +28,12 @@ public class Mutation implements GraphQLMutationResolver {
         return authorService.createAuthor(author.getName(), author.getEmail());
     }
 
+    public ChangeAuthorPayload changeAuthor(final ChangeAuthorInput input) {
+        return authorService.updateAuthor(input);
+    }
+
     @Transactional
-    public DeleteAuthorOutput deleteAuthor(final DeleteAuthorInput input) {
+    public DeleteAuthorPayload deleteAuthor(final DeleteAuthorInput input) {
         return authorService.deleteById(input);
     }
 }
