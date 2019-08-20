@@ -1,6 +1,6 @@
 package com.hello.world.graphqlsdl.model;
 
-public class DeleteAuthorOutput {
+public class DeleteAuthorPayload {
     private Boolean sucesso;
 
     public Boolean getSucesso() {

@@ -6,7 +6,11 @@ schema {
 type Mutation {
     addAuthor(author: InputAuthor!): Author
     addNote(note: String!, authorId: ID!): Note
-    deleteAuthor(author: DeleteAuthorInput!): DeleteAuthorOutput
+    changeAuthor(authorInput: ChangeAuthorInput!): ChangeAuthorPayload
+    changeNote(noteId: ID!, note: String!): Note
+    deleteAuthorNotes(authorID: ID!): DeleteNotesPayload
+    deleteAuthor(id: ID!): DeleteAuthorPayload
+    deleteNote(id: ID!): DeleteNotePayload
 }
 
 type Query {
@@ -25,8 +29,26 @@ input DeleteAuthorInput {
     id: ID!
 }
 
-type DeleteAuthorOutput {
-    sucesso: Boolean!
+input ChangeAuthorInput {
+    id: ID!
+    name: String
+    email: String
+}
+
+type ChangeAuthorPayload {
+    success: Boolean!
+    author: Author
+}
+type DeleteAuthorPayload {
+    success: Boolean!
+}
+
+type DeleteNotePayload {
+    success: Boolean!
+}
+
+type DeleteNotesPayload {
+    success: Boolean!
 }
 
 type Note {
