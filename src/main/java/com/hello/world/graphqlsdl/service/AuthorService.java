@@ -28,10 +28,10 @@ public class AuthorService {
         return authorList;
     }
 
-    public DeleteAuthorPayload deleteById(DeleteAuthorInput input) {
+    public DeleteAuthorPayload deleteById(UUID id) {
         DeleteAuthorPayload output = new DeleteAuthorPayload();
-        if (authorRepository.existsById(input.getId())) {
-            authorRepository.deleteById(input.getId());
+        if (authorRepository.existsById(id)) {
+            authorRepository.deleteById(id);
         }
         output.setSucess(true);
         return output;
