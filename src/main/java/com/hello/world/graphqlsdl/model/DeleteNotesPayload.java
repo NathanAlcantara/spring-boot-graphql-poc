@@ -2,7 +2,7 @@ package com.hello.world.graphqlsdl.model;
 
 import javax.validation.constraints.NotNull;
 
-public class DeleteAuthorPayload {
+public class DeleteNotesPayload {
     @NotNull
     private Boolean sucess;
 

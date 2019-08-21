@@ -1,8 +1,8 @@
 package com.hello.world.graphqlsdl.service;
 
-import com.hello.world.graphqlsdl.model.*;
+import com.hello.world.graphqlsdl.model.Author;
+import com.hello.world.graphqlsdl.model.DeleteAuthorPayload;
 import com.hello.world.graphqlsdl.repository.AuthorRepository;
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +18,14 @@ public class AuthorService {
     private AuthorRepository authorRepository;
 
     public Optional<Author> findById(UUID id) {
-        Optional<Author> author = authorRepository.findById(id);
-        Hibernate.initialize(author.get().getNotes());
-        return author;
+        Author author = authorRepository.findById(id).orElseThrow();
+        Hibernate.initialize(author.getNotes());
+        return Optional.of(author);
     }
 
     public List<Author> findAll() {
         List<Author> authorList = authorRepository.findAll();
-        authorList.forEach(author -> {Hibernate.initialize(author.getNotes());});
+        authorList.forEach(author -> Hibernate.initialize(author.getNotes()));
         return authorList;
     }
 
@@ -45,22 +45,5 @@ public class AuthorService {
         author.setEmail(email);
 
         return authorRepository.save(author);
-    }
-
-    public ChangeAuthorPayload updateAuthor(ChangeAuthorInput input) {
-        ChangeAuthorPayload payload = new ChangeAuthorPayload();
-
-        Author author =  authorRepository.findById(input.getId()).orElseThrow();
-        if(StringUtils.isNotEmpty(input.getEmail())) {
-            author.setEmail(input.getEmail());
-        }
-
-        if(StringUtils.isNotEmpty(input.getName())) {
-            author.setName(input.getName());
-        }
-        authorRepository.save(author);
-        payload.setSuccess(true);
-        payload.setAuthor(author);
-        return payload;
     }
 }

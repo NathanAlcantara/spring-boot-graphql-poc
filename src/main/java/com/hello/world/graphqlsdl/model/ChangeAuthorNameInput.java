@@ -1,13 +1,13 @@
 package com.hello.world.graphqlsdl.model;
 
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
-public class InputPerson {
-
+public class ChangeAuthorNameInput {
+    @NotNull
+    private UUID id;
     @NotNull
     private String name;
-    @NotNull
-    private String email;
 
     public String getName() {
         return name;
@@ -17,11 +17,11 @@ public class InputPerson {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public UUID getId() {
+        return id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setId(UUID id) {
+        this.id = id;
     }
 }

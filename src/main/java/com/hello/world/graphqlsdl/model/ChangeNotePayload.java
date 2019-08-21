@@ -2,11 +2,11 @@ package com.hello.world.graphqlsdl.model;
 
 import javax.validation.constraints.NotNull;
 
-public class ChangeAuthorPayload {
+public class ChangeNotePayload {
     @NotNull
     private boolean success;
     @NotNull
-    private Author author;
+    private Note note;
 
     public boolean isSuccess() {
         return success;
@@ -16,11 +16,11 @@ public class ChangeAuthorPayload {
         this.success = success;
     }
 
-    public Author getAuthor() {
-        return author;
+    public Note getNote() {
+        return note;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setNote(Note note) {
+        this.note = note;
     }
 }

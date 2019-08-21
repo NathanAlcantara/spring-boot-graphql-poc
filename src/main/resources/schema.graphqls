@@ -4,12 +4,13 @@ schema {
 }
 
 type Mutation {
-    addAuthor(author: InputAuthor!): Author
-    addNote(note: String!, authorId: ID!): Note
-    changeAuthor(authorInput: ChangeAuthorInput!): ChangeAuthorPayload
-    changeNote(noteId: ID!, note: String!): Note
-    deleteAuthorNotes(authorID: ID!): DeleteNotesPayload
+    createAuthor(author: InputAuthor!): Author
+    createNote(note: String!, authorId: ID!): Note
+    changeAuthorName(authorNameInput: ChangeAuthorNameInput!): ChangeAuthorPayload
+    changeAuthorEmail(authorEmailInput: ChangeAuthorEmailInput!): ChangeAuthorPayload
+    changeNote(noteInput: ChangeNoteInput!): ChangeNotePayload
     deleteAuthor(id: ID!): DeleteAuthorPayload
+    deleteAuthorNotes(authorID: ID!): DeleteNotesPayload
     deleteNote(id: ID!): DeleteNotePayload
 }
 
@@ -20,25 +21,50 @@ type Query {
     authors: [Author]
 }
 
+type Author {
+    id: ID!
+    name: String!
+    email: String!
+    notes: [Note!]
+}
+
+type Note {
+    id: ID!
+    note: String!
+    createdOn : String
+    author: Author!
+}
+
 input InputAuthor {
     name: String!
     email: String!
 }
 
-input DeleteAuthorInput {
+input ChangeAuthorNameInput {
     id: ID!
+    name: String!
 }
 
-input ChangeAuthorInput {
+input ChangeAuthorEmailInput {
     id: ID!
-    name: String
-    email: String
+    email: String!
+}
+
+input ChangeNoteInput {
+    id: ID!
+    note: String!
 }
 
 type ChangeAuthorPayload {
     success: Boolean!
-    author: Author
+    author: Author!
 }
+
+type ChangeNotePayload {
+    success: Boolean!
+    note: Note!
+}
+
 type DeleteAuthorPayload {
     success: Boolean!
 }
@@ -49,18 +75,4 @@ type DeleteNotePayload {
 
 type DeleteNotesPayload {
     success: Boolean!
-}
-
-type Note {
-    id: ID!
-    note: String!
-    createdOn : String
-    author: Author!
-}
-
-type Author {
-    id: ID!
-    name: String!
-    email: String!
-    notes: [Note!]
 }
