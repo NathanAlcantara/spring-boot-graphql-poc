@@ -9,12 +9,12 @@ public class ChangeNoteInput {
     @NotNull
     private String note;
 
-    public String getName() {
+    public String getNote() {
         return note;
     }
 
-    public void setName(String name) {
-        this.note = name;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public UUID getId() {

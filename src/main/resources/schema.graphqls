@@ -10,7 +10,7 @@ type Mutation {
     changeAuthorEmail(authorEmailInput: ChangeAuthorEmailInput!): ChangeAuthorPayload
     changeNote(noteInput: ChangeNoteInput!): ChangeNotePayload
     deleteAuthor(id: ID!): DeleteAuthorPayload
-    deleteAuthorNotes(authorID: ID!): DeleteNotesPayload
+    deleteAuthorNotes(authorID: ID!): DeleteAuthorNotesPayload
     deleteNote(id: ID!): DeleteNotePayload
 }
 
@@ -69,10 +69,11 @@ type DeleteAuthorPayload {
     success: Boolean!
 }
 
-type DeleteNotePayload {
+type DeleteAuthorNotesPayload {
     success: Boolean!
+    author: Author!
 }
 
-type DeleteNotesPayload {
+type DeleteNotePayload {
     success: Boolean!
 }
