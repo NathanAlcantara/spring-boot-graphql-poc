@@ -33,7 +33,7 @@ public class Mutation implements GraphQLMutationResolver {
     }
 
     @Transactional
-    public DeleteAuthorPayload deleteAuthor(final DeleteAuthorInput input) {
-        return authorService.deleteById(input);
+    public DeleteAuthorPayload deleteAuthor(final UUID id) {
+        return authorService.deleteById(id);
     }
 }
