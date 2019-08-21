@@ -2,6 +2,7 @@ package com.hello.world.graphqlsdl.service;
 
 import com.hello.world.graphqlsdl.model.*;
 import com.hello.world.graphqlsdl.repository.AuthorRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,13 +50,17 @@ public class AuthorService {
     public ChangeAuthorPayload updateAuthor(ChangeAuthorInput input) {
         ChangeAuthorPayload payload = new ChangeAuthorPayload();
 
-        Optional<Author> author = findById(input.getId());
-        if (author.isPresent()) {
-            payload.setAuthor(author.get());
-            payload.setSuccess(true);
-        } else {
-            payload.setSuccess(false);
+        Author author =  authorRepository.findById(input.getId()).orElseThrow();
+        if(StringUtils.isNotEmpty(input.getEmail())) {
+            author.setEmail(input.getEmail());
         }
+
+        if(StringUtils.isNotEmpty(input.getName())) {
+            author.setName(input.getName());
+        }
+        authorRepository.save(author);
+        payload.setSuccess(true);
+        payload.setAuthor(author);
         return payload;
     }
 }
