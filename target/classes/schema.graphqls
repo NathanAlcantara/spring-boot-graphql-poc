@@ -1,0 +1,44 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Mutation {
+    addAuthor(author: InputAuthor!): Author
+    addNote(note: String!, authorId: ID!): Note
+    deleteAuthor(author: DeleteAuthorInput!): DeleteAuthorOutput
+}
+
+type Query {
+    note(id: ID!): Note
+    notes: [Note]
+    author(id: ID!): Author
+    authors: [Author]
+}
+
+input InputAuthor {
+    name: String!
+    email: String!
+}
+
+input DeleteAuthorInput {
+    id: ID!
+}
+
+type DeleteAuthorOutput {
+    sucesso: Boolean!
+}
+
+type Note {
+    id: ID!
+    note: String!
+    createdOn : String
+    author: Author!
+}
+
+type Author {
+    id: ID!
+    name: String!
+    email: String!
+    notes: [Note!]
+}
