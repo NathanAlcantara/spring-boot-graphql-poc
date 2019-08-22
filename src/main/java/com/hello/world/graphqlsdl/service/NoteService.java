@@ -1,6 +1,7 @@
 package com.hello.world.graphqlsdl.service;
 
 import com.hello.world.graphqlsdl.model.Author;
+import com.hello.world.graphqlsdl.model.ChangeNoteInput;
 import com.hello.world.graphqlsdl.model.ChangeNotePayload;
 import com.hello.world.graphqlsdl.model.DeleteNotePayload;
 import com.hello.world.graphqlsdl.model.Note;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -65,5 +67,27 @@ public class NoteService {
         output.setSucess(true);
 
         return output;
+    }
+
+    public List<Note> createNoteBulk(List<String> notes, UUID authorId) {
+        final Author author = authorRepository.findById(authorId).orElseThrow();
+        final List<Note> noteList = Collections.emptyList();
+
+        notes.forEach(note -> {
+            final Note noteEntity = new Note();
+            noteEntity.setNote(note);
+            noteEntity.setCreatedOn(ZonedDateTime.now());
+
+            author.addNote(noteEntity);
+            noteRepository.save(noteEntity);
+
+            noteList.add(noteEntity);
+        });
+
+        return noteRepository.saveAll(noteList);
+    }
+
+    public List<ChangeNotePayload> changeNoteBulk(List<ChangeNoteInput> notesInput) {
+
     }
 }

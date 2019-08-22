@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -65,6 +66,47 @@ public class Mutation implements GraphQLMutationResolver {
 
     @Transactional
     public DeleteNotePayload deleteNote(final UUID id) {
+        return noteService.deleteById(id);
+    }
+
+    // Bulk
+    @Transactional
+    public List<Author> createAuthorBulk(final List<InputAuthor> authors) {
+        return authorService.createAuthorBulk(authors);
+    }
+
+    @Transactional
+    public List<Note> createNoteBulk(final List<String> notes, final UUID authorId) {
+        return noteService.createNoteBulk(notes, authorId);
+    }
+
+    @Transactional
+    public List<ChangeAuthorPayload> changeAuthorNameBulk(final List<ChangeAuthorNameInput> authorsNameInput) {
+        return authorService.changeAuthorNameBulk(authorsNameInput);
+    }
+
+    @Transactional
+    public List<ChangeAuthorPayload> changeAuthorEmailBulk(final List<ChangeAuthorEmailInput> authorsEmailInput) {
+        return authorService.changeAuthorEmailBulk(authorsEmailInput);
+    }
+
+    @Transactional
+    public List<ChangeNotePayload> changeNoteBulk(final List<ChangeNoteInput> notesInput) {
+        return noteService.changeNoteBulk(notesInput);
+    }
+
+    @Transactional
+    public List<DeleteAuthorPayload> deleteAuthorBulk(final List<UUID> ids) {
+        return authorService.deleteById(id);
+    }
+
+    @Transactional
+    public List<DeleteAuthorNotesPayload> deleteAuthorNotesBulk(final List<UUID> authorsId) {
+        return authorService.deleteAuthorNotes(authorId);
+    }
+
+    @Transactional
+    public List<DeleteNotePayload> deleteNoteBulk(final List<UUID> ids) {
         return noteService.deleteById(id);
     }
 }

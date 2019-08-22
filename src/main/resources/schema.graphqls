@@ -12,6 +12,15 @@ type Mutation {
     deleteAuthor(id: ID!): DeleteAuthorPayload
     deleteAuthorNotes(authorID: ID!): DeleteAuthorNotesPayload
     deleteNote(id: ID!): DeleteNotePayload
+
+    createAuthorBulk(authors: [InputAuthor!]!): [Author]
+    createNoteBulk(notes: [String!]!, authorId: ID!): [Note]
+    changeAuthorNameBulk(authorNameInput: [ChangeAuthorNameInput!]!): [ChangeAuthorPayload]
+    changeAuthorEmailBulk(authorEmailInput: [ChangeAuthorEmailInput!]!): [ChangeAuthorPayload]
+    changeNoteBulk(noteInput: [ChangeNoteInput!]!): [ChangeNotePayload]
+    deleteAuthorBulk(id: [ID!]!): [DeleteAuthorPayload]
+    deleteAuthorNotesBulk(authorID: [ID!]!): [DeleteAuthorNotesPayload]
+    deleteNoteBulk(id: [ID!]!): [DeleteNotePayload]
 }
 
 type Query {
