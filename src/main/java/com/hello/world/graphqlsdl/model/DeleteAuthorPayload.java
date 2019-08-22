@@ -4,13 +4,13 @@ import javax.validation.constraints.NotNull;
 
 public class DeleteAuthorPayload {
     @NotNull
-    private Boolean sucess;
+    private Boolean success;
 
-    public Boolean getSucess() {
-        return sucess;
+    public Boolean getSuccess() {
+        return success;
     }
 
-    public void setSucess(Boolean sucess) {
-        this.sucess = sucess;
+    public void setSuccess(Boolean success) {
+        this.success = success;
     }
 }

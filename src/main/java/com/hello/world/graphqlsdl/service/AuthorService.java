@@ -13,7 +13,7 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,12 +49,11 @@ public class AuthorService {
     }
 
     public ChangeAuthorPayload changeAuthorName(UUID id, String name) {
-        final ChangeAuthorPayload output = new ChangeAuthorPayload();
-
         final Author author = authorRepository.findById(id).orElseThrow();
         author.setName(name);
         authorRepository.save(author);
 
+        final ChangeAuthorPayload output = new ChangeAuthorPayload();
         output.setAuthor(author);
         output.setSuccess(true);
 
@@ -62,12 +61,11 @@ public class AuthorService {
     }
 
     public ChangeAuthorPayload changeAuthorEmail(UUID id, String email) {
-        final ChangeAuthorPayload output = new ChangeAuthorPayload();
-
         final Author author = authorRepository.findById(id).orElseThrow();
         author.setEmail(email);
         authorRepository.save(author);
 
+        final ChangeAuthorPayload output = new ChangeAuthorPayload();
         output.setAuthor(author);
         output.setSuccess(author.getId() != null);
 
@@ -75,25 +73,24 @@ public class AuthorService {
     }
 
     public DeleteAuthorPayload deleteById(UUID id) {
-        final DeleteAuthorPayload output = new DeleteAuthorPayload();
+        authorRepository.deleteById(id);
 
-        if (authorRepository.existsById(id)) {
-            authorRepository.deleteById(id);
-        }
-        output.setSucess(true);
+        final boolean exist = authorRepository.existsById(id);
+
+        final DeleteAuthorPayload output = new DeleteAuthorPayload();
+        output.setSuccess(!exist);
 
         return output;
     }
 
     public DeleteAuthorNotesPayload deleteAuthorNotes(UUID authorId) {
-        final DeleteAuthorNotesPayload output = new DeleteAuthorNotesPayload();
-
         final Author author = authorRepository.findById(authorId).orElseThrow();
 
         noteRepository.deleteInBatch(author.getNotes());
 
         final boolean emptyNotes = author.getNotes().isEmpty();
 
+        final DeleteAuthorNotesPayload output = new DeleteAuthorNotesPayload();
         output.setSuccess(emptyNotes);
         output.setAuthor(author);
 
@@ -101,7 +98,7 @@ public class AuthorService {
     }
 
     public List<Author> createAuthorBulk(List<InputAuthor> authors) {
-        final List<Author> authorList = Collections.emptyList();
+        final List<Author> authorList = new ArrayList<>();
 
         authors.forEach(author -> {
             final Author authorEntity = new Author();
@@ -115,7 +112,7 @@ public class AuthorService {
     }
 
     public List<ChangeAuthorPayload> changeAuthorNameBulk(List<ChangeAuthorNameInput> authorsNameInput) {
-        final List<ChangeAuthorPayload> outputList = Collections.emptyList();
+        final List<ChangeAuthorPayload> outputList = new ArrayList<>();
 
         authorsNameInput.forEach(authorNameInput -> {
             final Author author = authorRepository.findById(authorNameInput.getId()).orElseThrow();
@@ -124,8 +121,8 @@ public class AuthorService {
             authorRepository.save(author);
 
             final ChangeAuthorPayload output = new ChangeAuthorPayload();
-            output.setAuthor(author);
             output.setSuccess(author.getId() != null);
+            output.setAuthor(author);
 
             outputList.add(output);
         });
@@ -134,7 +131,7 @@ public class AuthorService {
     }
 
     public List<ChangeAuthorPayload> changeAuthorEmailBulk(List<ChangeAuthorEmailInput> authorsEmailInput) {
-        final List<ChangeAuthorPayload> outputList = Collections.emptyList();
+        final List<ChangeAuthorPayload> outputList = new ArrayList<>();
 
         authorsEmailInput.forEach(authorEmailInput -> {
             final Author author = authorRepository.findById(authorEmailInput.getId()).orElseThrow();
@@ -143,8 +140,45 @@ public class AuthorService {
             authorRepository.save(author);
 
             final ChangeAuthorPayload output = new ChangeAuthorPayload();
-            output.setAuthor(author);
             output.setSuccess(author.getId() != null);
+            output.setAuthor(author);
+
+            outputList.add(output);
+        });
+
+        return outputList;
+    }
+
+    public List<DeleteAuthorPayload> deleteAllById(List<UUID> ids) {
+        final List<DeleteAuthorPayload> outputList = new ArrayList<>();
+
+        authorRepository.deleteByIdIn(ids);
+
+        ids.forEach(id -> {
+            final boolean exist = authorRepository.existsById(id);
+
+            final DeleteAuthorPayload output = new DeleteAuthorPayload();
+            output.setSuccess(!exist);
+
+            outputList.add(output);
+        });
+
+        return outputList;
+    }
+
+    public List<DeleteAuthorNotesPayload> deleteAuthorNotesBulk(List<UUID> authorsId) {
+        final List<DeleteAuthorNotesPayload> outputList = new ArrayList<>();
+
+        authorsId.forEach(authorId -> {
+            final Author author = authorRepository.findById(authorId).orElseThrow();
+
+            noteRepository.deleteInBatch(author.getNotes());
+
+            final boolean emptyNotes = author.getNotes().isEmpty();
+
+            final DeleteAuthorNotesPayload output = new DeleteAuthorNotesPayload();
+            output.setSuccess(emptyNotes);
+            output.setAuthor(author);
 
             outputList.add(output);
         });

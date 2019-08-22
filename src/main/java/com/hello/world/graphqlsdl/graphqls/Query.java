@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class Query implements GraphQLQueryResolver {
+class Query implements GraphQLQueryResolver {
 
     @Autowired
     private NoteService noteService;

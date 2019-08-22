@@ -16,7 +16,7 @@ public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private final UUID id = null;
+    private UUID id;
 
     @NotNull
     private String note;

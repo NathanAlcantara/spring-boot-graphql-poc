@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class Mutation implements GraphQLMutationResolver {
+class Mutation implements GraphQLMutationResolver {
 
     @Autowired
     private NoteService noteService;
@@ -97,16 +97,16 @@ public class Mutation implements GraphQLMutationResolver {
 
     @Transactional
     public List<DeleteAuthorPayload> deleteAuthorBulk(final List<UUID> ids) {
-        return authorService.deleteById(id);
+        return authorService.deleteAllById(ids);
     }
 
     @Transactional
     public List<DeleteAuthorNotesPayload> deleteAuthorNotesBulk(final List<UUID> authorsId) {
-        return authorService.deleteAuthorNotes(authorId);
+        return authorService.deleteAuthorNotesBulk(authorsId);
     }
 
     @Transactional
     public List<DeleteNotePayload> deleteNoteBulk(final List<UUID> ids) {
-        return noteService.deleteById(id);
+        return noteService.deleteAllById(ids);
     }
 }
