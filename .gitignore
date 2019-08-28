@@ -25,5 +25,5 @@
 hs_err_pid*
 
 /.idea/*
-/target/classes/application.properties
+/target/*
 /graphql-sdl.iml
