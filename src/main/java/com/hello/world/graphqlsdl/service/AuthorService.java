@@ -1,5 +1,16 @@
 package com.hello.world.graphqlsdl.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.coxautodev.graphql.tools.GraphQLResolver;
 import com.hello.world.graphqlsdl.model.Author;
 import com.hello.world.graphqlsdl.model.ChangeAuthorEmailInput;
 import com.hello.world.graphqlsdl.model.ChangeAuthorNameInput;
@@ -9,35 +20,23 @@ import com.hello.world.graphqlsdl.model.DeleteAuthorPayload;
 import com.hello.world.graphqlsdl.model.InputAuthor;
 import com.hello.world.graphqlsdl.repository.AuthorRepository;
 import com.hello.world.graphqlsdl.repository.NoteRepository;
-import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class AuthorService {
 
     @Autowired
     private AuthorRepository authorRepository;
+
     @Autowired
     private NoteRepository noteRepository;
 
     public Optional<Author> findById(UUID id) {
         final Author author = authorRepository.findById(id).orElseThrow();
-        Hibernate.initialize(author.getNotes());
-
         return Optional.of(author);
     }
 
     public List<Author> findAll() {
-        final List<Author> authorList = authorRepository.findAll();
-        authorList.forEach(author -> Hibernate.initialize(author.getNotes()));
-
-        return authorList;
+        return authorRepository.findAll();
     }
 
     public Author createAuthor(final String name, final String email) {
@@ -185,4 +184,5 @@ public class AuthorService {
 
         return outputList;
     }
+
 }
